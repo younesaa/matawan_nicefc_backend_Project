@@ -62,7 +62,88 @@ public class TeamControllerTestIntegration {
                         .content("{\"name\":\"Nice Fc\",\"acronym\":\"NFC\",\"budget\":100000," +
                                 "\"players\":[{\"name\":\"Player1\",\"position\":\"ST\"}," +
                                 "{\"name\":\"Player2\",\"position\":\"CM\"}," +
+                                "{\"name\":\"Player3\",\"position\":\"CB\"}]}"))
         .andExpect(MockMvcResultMatchers.status().isFound());
+    }
+
+    /**
+     * Test for attempting to get Teams with players sorting.
+     *
+     * @throws Exception if any error occurs during the test.
+     */
+    @Test
+    void testGetTeams_Success() throws Exception {
+        // Adding a team with the name "Nice Fc"
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/teams")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"Nice Fc\",\"acronym\":\"NFC\",\"budget\":100000," +
+                        "\"players\":[{\"name\":\"Player1\",\"position\":\"ST\"}," +
+                        "{\"name\":\"Player2\",\"position\":\"CM\"}," +
+                        "{\"name\":\"Player3\",\"position\":\"CB\"}]}"));
+
+        // Adding a team with the name "Nice Fc"
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/teams")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"antibes Fc\",\"acronym\":\"ANT\",\"budget\":100000," +
+                        "\"players\":[{\"name\":\"Player1\",\"position\":\"ST\"}," +
+                        "{\"name\":\"Player2\",\"position\":\"CM\"}," +
+                        "{\"name\":\"Player3\",\"position\":\"CB\"}]}"));
+
+        // Adding a team with the name "Nice Fc"
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/teams")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"cannes Fc\",\"acronym\":\"CNN\",\"budget\":100000," +
+                        "\"players\":[{\"name\":\"Player1\",\"position\":\"ST\"}," +
+                        "{\"name\":\"Player2\",\"position\":\"CM\"}," +
+                        "{\"name\":\"Player3\",\"position\":\"CB\"}]}"));
+
+        // get Teams with OK response Code
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/teams")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("page",String.valueOf(0))
+                        .param("size",String.valueOf(10))
+                        .param("sortBy","name"))
+        .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    /**
+     * Test for attempting to get Teams with players sorting.
+     *
+     * @throws Exception if any error occurs during the test.
+     */
+    @Test
+    void testGetTeams_failed() throws Exception {
+        // Adding a team with the name "Nice Fc"
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/teams")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"Nice Fc\",\"acronym\":\"NFC\",\"budget\":100000," +
+                        "\"players\":[{\"name\":\"Player1\",\"position\":\"ST\"}," +
+                        "{\"name\":\"Player2\",\"position\":\"CM\"}," +
+                        "{\"name\":\"Player3\",\"position\":\"CB\"}]}"));
+
+        // Adding a team with the name "Nice Fc"
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/teams")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"antibes Fc\",\"acronym\":\"ANT\",\"budget\":100000," +
+                        "\"players\":[{\"name\":\"Player1\",\"position\":\"ST\"}," +
+                        "{\"name\":\"Player2\",\"position\":\"CM\"}," +
+                        "{\"name\":\"Player3\",\"position\":\"CB\"}]}"));
+
+        // Adding a team with the name "Nice Fc"
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/teams")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"name\":\"cannes Fc\",\"acronym\":\"CNN\",\"budget\":100000," +
+                        "\"players\":[{\"name\":\"Player1\",\"position\":\"ST\"}," +
+                        "{\"name\":\"Player2\",\"position\":\"CM\"}," +
+                        "{\"name\":\"Player3\",\"position\":\"CB\"}]}"));
+
+        // get Teams with OK response Code
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/teams")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .param("page",String.valueOf(0))
+                        .param("size",String.valueOf(10))
+                        .param("sortBy","players"))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
 }

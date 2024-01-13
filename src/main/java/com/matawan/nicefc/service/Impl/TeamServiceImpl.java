@@ -7,7 +7,13 @@ import com.matawan.nicefc.service.TeamService;
 import com.matawan.nicefc.utils.mapper.TeamMapper;
 import jakarta.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * The {@code TeamServiceImpl} class implements the {@link TeamService} interface and provides
@@ -45,5 +51,16 @@ public class TeamServiceImpl implements TeamService {
     @Override
     public boolean existsByName(String teamDtoName) {
         return teamRepository.existsByName(teamDtoName);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Page<TeamDto> getTeams(int page, int size, String sortBy){
+        Pageable pageable = PageRequest.of(page,size, Sort.by(sortBy));
+        Page<Team> TeamPage = teamRepository.findAll(pageable);
+        return TeamPage.map(TeamMapper::mapTeamToTeamDto);
+
     }
 }

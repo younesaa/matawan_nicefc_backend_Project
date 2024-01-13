@@ -1,10 +1,7 @@
 package com.matawan.nicefc.controller;
 
-import com.matawan.nicefc.config.postGreSQLConfig;
-import com.matawan.nicefc.dto.PlayerDto;
+
 import com.matawan.nicefc.dto.TeamDto;
-import com.matawan.nicefc.entity.Player;
-import com.matawan.nicefc.entity.Team;
 import com.matawan.nicefc.exception.ValidationException;
 import com.matawan.nicefc.exception.teamAlreadyExistsException;
 import com.matawan.nicefc.service.TeamService;
@@ -12,18 +9,16 @@ import jakarta.validation.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.support.DefaultMessageSourceResolvable;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.time.temporal.Temporal;
 import java.util.List;
 
 import static java.util.stream.Collectors.toList;
@@ -69,7 +64,6 @@ public class TeamController {
                     .stream()
                     .map(FieldError::getField)
                     .toList();
-            logger.error("fields violation constraints on Entities");
             throw new ValidationException("validation error" , errors);
         }
 
@@ -81,7 +75,29 @@ public class TeamController {
 
         // store Team on DB
         teamService.addTeam(teamDto);
-        logger.error("team added successfully");
+        logger.info("team added successfully");
         return new ResponseEntity<>(teamDto, HttpStatus.CREATED);
+    }
+
+    /**
+     * Endpoint for adding a new team.
+     *
+     * @param page page number to retrieve.
+     * @param size  size of element in each page.
+     * @param sortBy  field to sort with
+     * @return ResponseEntity containing the added the page of team DTO if successful.
+     */
+    @GetMapping
+    public ResponseEntity<?> getTeams(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "name") String sortBy){
+        if(!sortBy.equals("name") && !sortBy.equals("acronym") && !sortBy.equals("budget") ){
+            logger.error("fields violation constraints on Entities");
+            return new ResponseEntity<>("field to sort with is invalid ",HttpStatus.BAD_REQUEST);
+        }
+        Page<TeamDto> teamsDto = teamService.getTeams(page,size,sortBy);
+        logger.info("List of  teams retrieved successfully");
+        return new ResponseEntity<>(teamsDto,HttpStatus.OK);
     }
 }

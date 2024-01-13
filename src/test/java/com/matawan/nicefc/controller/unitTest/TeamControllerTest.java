@@ -15,6 +15,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -126,6 +127,40 @@ public class TeamControllerTest {
         } catch (ValidationException e) {
             assertEquals("team already registered", e.getMessage());
         }
+    }
+
+    /**
+     * Test for getting teams with valid parameters.
+     */
+    @Test
+    void testGetTeamsSortedByAcronym_Success() {
+        int page = 0;
+        int size = 10;
+        String sortBy = "acronym";
+
+        Page<TeamDto> teamsDto = mock(Page.class);
+        when(teamService.getTeams(page, size, sortBy)).thenReturn(teamsDto);
+
+        ResponseEntity<?> responseEntity = teamController.getTeams(page, size, sortBy);
+
+        verify(teamService, times(1)).getTeams(page, size, sortBy);
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+    }
+
+    /**
+     * Test for getting teams with non-valid parameters.
+     */
+    @Test
+    void testGetTeamsSortedByPlayers_failed() {
+        int page = 0;
+        int size = 10;
+        String sortBy = "players";
+
+        Page<TeamDto> teamsDto = mock(Page.class);
+
+        ResponseEntity<?> responseEntity = teamController.getTeams(page, size, sortBy);
+
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
     }
 
 }
