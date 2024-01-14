@@ -24,8 +24,9 @@ Run the Application
 ```bash
 mvn spring-bootrun
 or
-java -jar .jar
- ( or run it on Intellij by running the main function)
+java -jar nice-0.0.1-SNAPSHOT.jar ( jar will be generated adter building the project on target folder -> move to the jar path )
+ or
+(run it on Intellij by running the main function)
 ```
 The application will be accessible at http://localhost:8080
 
