@@ -40,6 +40,8 @@ Parameters:
 page (default: 0)
 size (default: 10)
 sortBy (default: "name") you can sort by acronym and budget as well
+
+
 POST: Add a new team.
 
 Request Body Example:
