@@ -33,6 +33,8 @@ The application will be accessible at http://localhost:8080
 ## **API Paths**
 
 Endpoint 1: /api/teams
+
+
 GET: Retrieve a list of teams.
 
 Parameters:
@@ -41,6 +43,7 @@ page (default: 0)
 size (default: 10)
 sortBy (default: "name") you can sort by acronym and budget as well
 
+-------------------------------
 
 POST: Add a new team.
 
