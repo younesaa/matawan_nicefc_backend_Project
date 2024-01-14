@@ -30,9 +30,7 @@ java -jar nice-0.0.1-SNAPSHOT.jar ( jar will be generated adter building the pro
 ```
 The application will be accessible at http://localhost:8080
 
-## **API Paths**
-
-Endpoint 1: /api/teams
+## **Endpoint 1: /api/teams**
 
 
 GET: Retrieve a list of teams.
