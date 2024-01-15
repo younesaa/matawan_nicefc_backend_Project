@@ -6,8 +6,9 @@
 
 - **Java version:** 17 or 21 (17 prefereed)
 - **maven version:** apache-maven-3.9.5
-- **Packaging:** nicefc-0.0.1-SNAPSHOT.jar
-
+- **Packaging:** nicefc-0.0.1-
+- **Important:** you need to have right as administrator on your machine for the embedded postgresql dabate to be running locally ( otherwise you will need to use external postgresql server and update parameters on application.properties for connection)
+  
 ## **Getting Started**
 
 Clone the Repository
