@@ -38,12 +38,30 @@ GET: Retrieve a list of teams.
 Parameters:
 
 page (default: 0)
+
 size (default: 10)
-sortBy (default: "name") you can sort by acronym and budget as well
+
+sortBy (default: "name" , you can sort by acronym and budget as well)
 
 -------------------------------
 
 POST: Add a new team.
+
+(please check fields constraints for teamDto and playerDto)
+
+team : 
+
+   name : non-vide et entre 3 à 30 caractères.
+   
+   acronym : non-vide et entre 3 à 6 caractères.
+   
+   budget : non null
+
+player :
+
+   name : non-vide et entre 3 à 30 caractères.
+   
+   position : non-vide et entre 2 à 3 caractères.
 
 Request Body Example:
 
