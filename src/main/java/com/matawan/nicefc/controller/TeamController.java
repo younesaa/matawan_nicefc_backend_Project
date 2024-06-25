@@ -29,7 +29,7 @@ import static java.util.stream.Collectors.toList;
  * This controller provides endpoints for managing teams, such as adding a new team.
  */
 @RestController()
-@RequestMapping(value = "/api/teams",consumes = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/api/teams")
 @Validated
 public class TeamController {
 
